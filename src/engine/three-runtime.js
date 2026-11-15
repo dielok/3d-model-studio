@@ -77,6 +77,20 @@ export function createThreeGroup(solids, materialSpecs) {
       shape.quadraticCurveTo(0, ri, -wi, hi);
       shape.closePath();
       geometry = extruded(shape, solid.thickness);
+    } else if (solid.kind === 'spandrel') {
+      // A single watertight extrusion with a semicircular undercut.
+      const [w,h,d] = solid.size;
+      const r=solid.radius, cx=solid.cutoutX ?? 0, bottom=-h/2;
+      const shape = new THREE.Shape();
+      shape.moveTo(-w/2, bottom);
+      shape.lineTo(-w/2, h/2);
+      shape.lineTo(w/2, h/2);
+      shape.lineTo(w/2, bottom);
+      shape.lineTo(cx+r, bottom);
+      shape.absarc(cx, bottom, r, 0, Math.PI, false);
+      shape.lineTo(-w/2, bottom);
+      shape.closePath();
+      geometry = extruded(shape, d);
     } else if (solid.kind === 'fanlight') {
       const r = solid.radius;
       const shape = new THREE.Shape();

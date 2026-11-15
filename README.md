@@ -89,3 +89,7 @@ src/
 public/models/                   Beispielmodelle
 tests/                           Vitest-Tests
 ```
+
+### Round-arch cutouts
+
+Use `shape: arched_opening`, `operation: subtract_from_wall` and `wall_id` to subtract the external semicircle of an arch from an existing `box` wall plate. The compiler turns the box into one `spandrel` shape with a continuous curved underside; both SVG and Three.js render the same contour. Currently supported when the arch spring line coincides with the target box bottom and the opening fits inside its width and height. External host-wall openings remain separate building-system responsibilities.

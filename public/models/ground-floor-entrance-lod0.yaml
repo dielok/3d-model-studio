@@ -4,7 +4,7 @@
 # Coordinates in metres. Box positions are centres, pillar positions are bottom-centres.
 schema: hackeburg.model.v1
 id: historic_ground_floor_entrance
-version: 2
+version: 3
 lod: 0
 kind: facade_module
 style: simplified_historicism
@@ -106,7 +106,7 @@ components:
   position:
   - -1.62
   - 0.09
-  - 0.18
+  - 0.0
   axis: y
   shared_boundary: false
   sections:
@@ -160,7 +160,7 @@ components:
   position:
   - 1.62
   - 0.09
-  - 0.18
+  - 0.0
   mirror_geometry: false
 - id: portal_opening
   shape: arched_opening
@@ -200,6 +200,33 @@ components:
   - 0.23
   - 2.35
   - 0.38
+- id: spandrel_plate
+  shape: box
+  material: sandstone
+  position:
+  - 0.0
+  - 3.36
+  - 0.22
+  size:
+  - 2.86
+  - 1.82
+  - 0.23
+  purpose: continuous_masonry_plate_between_pillars_above_outer_arch_and_below_cornice
+- id: spandrel_arch_cutout
+  shape: arched_opening
+  operation: subtract_from_wall
+  wall_id: spandrel_plate
+  position:
+  - 0.0
+  - 2.45
+  - 0.22
+  clear_width: 2.86
+  straight_height: 0.0
+  arch:
+    type: semicircular
+    inner_radius: 1.43
+    spring_y: 2.45
+  total_clear_height: 3.88
 - id: portal_arch_moulding
   shape: extruded_arch_ring
   material: sandstone_light
@@ -241,7 +268,7 @@ components:
   position:
   - 0.0
   - 1.255
-  - -0.22
+  - 0.1
   size_convention: opening_size means inner clear dimensions
   depth: 0.09
 - id: entrance_doors
@@ -249,7 +276,7 @@ components:
   position:
   - 0.0
   - 1.255
-  - -0.23
+  - 0.1
   size:
   - 2.2
   - 2.35
@@ -300,7 +327,7 @@ components:
   position:
   - 0.0
   - 2.45
-  - -0.25
+  - 0.1
   radius: 1.19
   segments: 12
   muntins:

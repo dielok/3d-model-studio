@@ -50,7 +50,7 @@ export type BuildingModel = {
   [key:string]: unknown;
 };
 export type Solid = {
-  id:string; owner:string; kind:'box'|'sphere'|'arch'|'keystone'|'fanlight';
+  id:string; owner:string; kind:'box'|'sphere'|'arch'|'keystone'|'fanlight'|'spandrel';
   material:string;
   position:Vec3;
   size?:Vec3;
@@ -61,6 +61,7 @@ export type Solid = {
   wo?:number;
   divisions?:number;
   thickness?:number;
+  cutoutX?:number;
   count?:number;
 };
 export type ResolvedModel = {id:string;size:{width:number;height:number;depth:number};materials:Record<string,MaterialSpec>;solids:Solid[];warnings:string[]};

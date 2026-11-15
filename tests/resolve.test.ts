@@ -55,3 +55,42 @@ describe('shared model compiler',()=>{
    expect(result.size.width).toBe(4);expect(result.size.height).toBe(5.2);
  });
 });
+
+
+describe('arched spandrel subtraction',()=>{
+ const modelText=`
+schema: hackeburg.model.v1
+id: spandrel_test
+size: {width: 4, height: 4.6, depth: 0.9}
+materials: {sandstone: {color: '#ddd'}}
+components:
+ - id: spandrel_plate
+   shape: box
+   material: sandstone
+   position: [0, 3.36, 0.22]
+   size: [2.86, 1.82, 0.23]
+ - id: spandrel_arch_cutout
+   shape: arched_opening
+   operation: subtract_from_wall
+   wall_id: spandrel_plate
+   position: [0, 2.45, 0.22]
+   clear_width: 2.86
+   straight_height: 0
+   arch: {type: semicircular, inner_radius: 1.43, spring_y: 2.45}
+`;
+ it('replaces the plate with one continuous extruded spandrel',()=>{
+   const {model}=parseModel(modelText);const result=resolveModel(model);
+   const plate=result.solids.find(s=>s.id==='spandrel_plate');
+   expect(plate?.kind).toBe('spandrel');
+   expect(plate?.radius).toBe(1.43);
+   expect(plate?.size).toEqual([2.86,1.82,.23]);
+   expect(plate?.position).toEqual([0,3.36,.22]);
+   expect(result.solids).toHaveLength(1);
+ });
+ it('rejects an oversized arch rather than silently corrupting the plate',()=>{
+   const {model}=parseModel(modelText.replace('inner_radius: 1.43','inner_radius: 2.5'));
+   const result=resolveModel(model);
+   expect(result.solids[0].kind).toBe('box');
+   expect(result.warnings.some(w=>w.includes('spandrel_arch_cutout'))).toBe(true);
+ });
+});

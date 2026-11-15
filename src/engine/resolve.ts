@@ -34,7 +34,7 @@ export function resolveModel(model:BuildingModel, options:{height?:number;interi
         box(`${owner}/${part.id}`,owner,part.material??material,[pos[0],pos[1]+(a+b)/2,pos[2]],[part.width,b-a,part.depth]);
       }return;
     }
-    if(shape==='arched_opening')return; // A void, not a solid. See host wall design note.
+    if(shape==='arched_opening')return; // Subtractions are resolved against their target boxes below.
     if(shape==='extruded_arch_ring'){
       solids.push({id:owner,owner,kind:'arch',material,position:v3(c.center),ri:num(c.inner_radius),ro:num(c.outer_radius),thickness:num(c.extrusion_depth,.25)});return;
     }
@@ -70,6 +70,28 @@ export function resolveModel(model:BuildingModel, options:{height?:number;interi
     warnings.push(`${owner}: unbekannte Geometrie ${shape??'null'} (ausgelassen)`);
   };
   for(const c of model.components)add(c);
+  // Resolve semicircular openings against a named box, preserving one solid.
+  for(const cut of model.components){
+    if(cut.shape!=='arched_opening'||cut.operation!=='subtract_from_wall')continue;
+    const target=solids.find(s=>s.id===cut.wall_id && s.kind==='box');
+    if(!target){
+      if(cut.wall_id!=='host_ground_floor_shell')warnings.push(`${cut.id}: Zielwand ${cut.wall_id} nicht gefunden`);
+      continue;
+    }
+    const radius=num(cut.arch?.inner_radius);
+    const [w,h]=target.size!;
+    const bottom=target.position[1]-h/2;
+    const center=v3(cut.position);
+    const spring=num(cut.arch?.spring_y,center[1]);
+    if(radius<=0||Math.abs(center[0]-target.position[0])>1e-5||
+       Math.abs(spring-bottom)>1e-4||radius>w/2+1e-5||radius>h+1e-5){
+      warnings.push(`${cut.id}: Ausschnitt liegt außerhalb oder nicht an der Unterkante von ${target.id}`);
+      continue;
+    }
+    target.kind='spandrel';
+    target.radius=radius;
+    target.cutoutX=center[0]-target.position[0];
+  }
   // Keep pillar geometry in front of the portal jambs in the street-facing +Z axis.
   // The YAML v2 coordinates already position the jamb at z=.22 and the pillars centred z=0,
   // with pillar front at ~.35. No layer hacks required in the 3D projector.

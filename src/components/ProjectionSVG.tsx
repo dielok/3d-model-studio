@@ -16,6 +16,11 @@ export function ProjectionSVG({model,view,selected,onSelect,grid,dimensions}:Pro
  function shape(s:Solid){
    const [x,y]=project(...s.position),[w,h]=extents(s);
    const common={stroke:'#53655a',strokeWidth:.018,fill:palette[s.material]??'#b0b6a9'};
+   if(s.kind==='spandrel'&&view==='front'){
+     const r=s.radius??0,cx=x+(s.cutoutX??0),top=y-h/2,bottom=y+h/2;
+     const d=`M ${x-w/2} ${bottom} L ${x-w/2} ${top} L ${x+w/2} ${top} L ${x+w/2} ${bottom} L ${cx+r} ${bottom} A ${r} ${r} 0 0 0 ${cx-r} ${bottom} L ${x-w/2} ${bottom} Z`;
+     return part(s,<path d={d} {...common}/>);
+   }
    if(s.kind==='sphere')return part(s,<circle cx={x} cy={y} r={s.radius} {...common}/>);
    if(s.kind==='arch'&&view==='front'){
      const ro=s.ro??1.4,ri=s.ri??1.2;
