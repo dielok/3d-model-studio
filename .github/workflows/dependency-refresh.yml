@@ -1,33 +1,25 @@
-name: Refresh dependency lockfile after security upgrade
+name: Dependency security and build
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 permissions:
-  contents: write
+  contents: read
 jobs:
-  refresh-lockfile:
+  verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Resolve updated dependencies
-        run: npm install --package-lock-only --ignore-scripts --no-audit
+          cache: npm
       - name: Install locked dependencies
         run: npm ci
-      - name: Audit dependency security
+      - name: Audit dependencies
         run: npm audit --audit-level=moderate
       - name: Run tests
         run: npm test
       - name: Build
         run: npm run build
-      - name: Commit regenerated lockfile
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package-lock.json
-          if ! git diff --cached --quiet; then
-            git commit -m "chore(deps): regenerate audited npm lockfile"
-            git push origin HEAD:main
-          fi
