@@ -1,0 +1,430 @@
+# V3 Anpassung: Säulenfront gegenüber Portaleinfassung nach vorne versetzt (+Z)
+# Hackeburg · entrance module LOD0 v2 · thicker stone arch and keystone
+# 4m is a facade bay WIDTH, not a world-grid height constraint.
+# Coordinates in metres. Box positions are centres, pillar positions are bottom-centres.
+schema: hackeburg.model.v1
+id: historic_ground_floor_entrance
+version: 2
+lod: 0
+kind: facade_module
+style: simplified_historicism
+coordinate_system:
+  units: meters
+  handedness: right
+  axes:
+    x: right
+    y: up
+    z: street
+  origin: bottom_front_center
+  angles: degrees
+size:
+  width: 4.0
+  height: 4.6
+  depth: 0.9
+bounds:
+  min:
+  - -2.0
+  - 0.0
+  - -0.45
+  max:
+  - 2.0
+  - 4.6
+  - 0.45
+  strict: true
+placement:
+  facade_bay_width: 4.0
+  requires_ground_floor: true
+  wall_plane_z: 0.0
+  street_side: positive_z
+  entrances_per_bay: 1
+  rotate_to_facade_side: true
+  may_place_on_rounded_corner: false
+  replaces_module_type: storefront
+materials:
+  sandstone:
+    type: standard
+    color: '#d9c3a2'
+    roughness: 0.89
+    normal_map: sandstone_fine_normal
+    normal_scale: 0.13
+  sandstone_light:
+    type: standard
+    color: '#ecddc1'
+    roughness: 0.85
+  sandstone_base:
+    type: standard
+    color: '#b8a78e'
+    roughness: 0.96
+  bronze:
+    type: standard
+    color: '#343b38'
+    metalness: 0.58
+    roughness: 0.32
+  wood:
+    type: standard
+    color: '#554334'
+    roughness: 0.75
+    normal_map: wood_grain_normal
+  glass:
+    type: physical
+    color: '#d6e2df'
+    metalness: 0.0
+    roughness: 0.08
+    transmission: 0.95
+    thickness: 0.01
+    ior: 1.5
+    depth_write: false
+  interior_plaster:
+    type: standard
+    color: '#d8c8ad'
+    roughness: 0.9
+  interior_wood:
+    type: standard
+    color: '#846348'
+    roughness: 0.8
+  lamp_emissive:
+    type: standard
+    color: '#fff0d1'
+    emissive: '#ffd49a'
+    emissive_intensity: 1.6
+components:
+- id: floor_sill
+  shape: box
+  material: sandstone_base
+  position:
+  - 0.0
+  - 0.045
+  - 0.1
+  size:
+  - 4.0
+  - 0.09
+  - 0.68
+  purpose: continuous_entrance_floor_plate
+- id: pillar_left
+  shape: sectioned_pillar
+  material: sandstone
+  position:
+  - -1.62
+  - 0.09
+  - 0.18
+  axis: y
+  shared_boundary: false
+  sections:
+  - id: pedestal
+    shape: box
+    from_y: 0.0
+    to_y: 0.42
+    width: 0.76
+    depth: 0.7
+    material: sandstone_base
+  - id: shaft_lower
+    shape: box
+    from_y: 0.42
+    to_y: 2.87
+    width: 0.58
+    depth: 0.56
+    material: sandstone
+  - id: intermediate_band
+    shape: box
+    from_y: 2.87
+    to_y: 2.93
+    width: 0.65
+    depth: 0.62
+    material: sandstone_light
+  - id: shaft_upper
+    shape: box
+    from_y: 2.93
+    to_y: 3.99
+    width: 0.58
+    depth: 0.56
+    material: sandstone
+  - id: capital_lower
+    shape: box
+    from_y: 3.99
+    to_y: 4.11
+    width: 0.66
+    depth: 0.65
+    material: sandstone
+  - id: capital_upper
+    shape: box
+    from_y: 4.11
+    to_y: 4.23
+    width: 0.76
+    depth: 0.7
+    material: sandstone_light
+  surface_detail:
+    joints: normal_map_only
+    individual_masonry_blocks: false
+- id: pillar_right
+  instance_of: pillar_left
+  position:
+  - 1.62
+  - 0.09
+  - 0.18
+  mirror_geometry: false
+- id: portal_opening
+  shape: arched_opening
+  operation: subtract_from_wall
+  wall_id: host_ground_floor_shell
+  position:
+  - 0.0
+  - 0.09
+  - -0.13
+  clear_width: 2.4
+  straight_height: 2.36
+  arch:
+    type: semicircular
+    inner_radius: 1.2
+    spring_y: 2.45
+  total_clear_height: 3.65
+  notes: spring_y and total_clear_height are absolute module Y positions
+- id: portal_jamb_left
+  shape: box
+  material: sandstone_light
+  position:
+  - -1.315
+  - 1.275
+  - 0.22
+  size:
+  - 0.23
+  - 2.35
+  - 0.38
+- id: portal_jamb_right
+  shape: box
+  material: sandstone_light
+  position:
+  - 1.315
+  - 1.275
+  - 0.22
+  size:
+  - 0.23
+  - 2.35
+  - 0.38
+- id: portal_arch_moulding
+  shape: extruded_arch_ring
+  material: sandstone_light
+  center:
+  - 0.0
+  - 2.45
+  - 0.22
+  inner_radius: 1.2
+  outer_radius: 1.43
+  angle_start: 0
+  angle_end: 180
+  segments: 24
+  extrusion_depth: 0.38
+  extrusion_direction: z
+  note: 'Substantial stone architrave: outer 1.43m, inner 1.20m. Keystone projects in front of this ring.'
+- id: portal_keystone
+  shape: arched_keystone
+  material: sandstone_light
+  center:
+  - 0
+  - 2.45
+  - 0.27
+  inner_radius: 1.19
+  outer_radius: 1.51
+  inner_half_width: 0.115
+  outer_half_width: 0.235
+  extrusion_depth: 0.36
+  extrusion_direction: z
+  purpose: projecting_central_keystone_at_crown_of_entrance_arch
+  note: Wedge follows ring crown, extends slightly proud of the surrounding arch, is not a solid infill of
+    the door opening.
+- id: doorway_frame
+  shape: rectangular_frame
+  material: bronze
+  opening_size:
+  - 2.2
+  - 2.35
+  rail_width: 0.065
+  position:
+  - 0.0
+  - 1.255
+  - -0.22
+  size_convention: opening_size means inner clear dimensions
+  depth: 0.09
+- id: entrance_doors
+  shape: double_swing_door
+  position:
+  - 0.0
+  - 1.255
+  - -0.23
+  size:
+  - 2.2
+  - 2.35
+  - 0.06
+  opening_direction: toward_interior
+  leafs:
+  - id: left_leaf
+    local_hinge:
+    - -1.1
+    - 0.0
+    - 0.0
+    width: 1.1
+    material: bronze
+    infill: glass
+    rails:
+      bottom: 0.2
+      top: 0.075
+      sides: 0.07
+    handle:
+      shape: short_bar
+      side: right
+      height: 1.05
+      length: 0.18
+      material: bronze
+  - id: right_leaf
+    local_hinge:
+    - 1.1
+    - 0.0
+    - 0.0
+    width: 1.1
+    material: bronze
+    infill: glass
+    rails:
+      bottom: 0.2
+      top: 0.075
+      sides: 0.07
+    handle:
+      shape: short_bar
+      side: left
+      height: 1.05
+      length: 0.18
+      material: bronze
+  default_open_angle: 0
+  max_open_angle: 95
+- id: upper_fanlight
+  shape: semicircular_glazing
+  material: glass
+  position:
+  - 0.0
+  - 2.45
+  - -0.25
+  radius: 1.19
+  segments: 12
+  muntins:
+    material: bronze
+    radial_divisions: 5
+    width: 0.035
+    perimeter_frame_width: 0.05
+- id: cornice_lower
+  shape: box
+  material: sandstone
+  position:
+  - 0.0
+  - 4.335
+  - 0.02
+  size:
+  - 4.0
+  - 0.13
+  - 0.7
+- id: cornice_upper
+  shape: box
+  material: sandstone_light
+  position:
+  - 0.0
+  - 4.485
+  - 0.05
+  size:
+  - 4.0
+  - 0.17
+  - 0.76
+- id: interior_preview
+  shape: group
+  optional: true
+  positioned_in: host_interior
+  children:
+  - id: floor
+    shape: box
+    material: interior_wood
+    position:
+    - 0.0
+    - 0.07
+    - -0.31
+    size:
+    - 2.25
+    - 0.05
+    - 0.26
+  - id: rear_display
+    shape: box
+    material: interior_wood
+    position:
+    - 0.0
+    - 1.18
+    - -0.38
+    size:
+    - 1.55
+    - 1.55
+    - 0.11
+  - id: pendant_glow
+    shape: sphere
+    material: lamp_emissive
+    position:
+    - 0.0
+    - 2.8
+    - -0.34
+    radius: 0.075
+    segments:
+    - 8
+    - 6
+connections:
+  left:
+    position:
+    - -2.0
+    - 0.0
+    - 0.0
+    type: facade_bay
+    ownership: own_outer_edge
+    rule: adjacent_bay_must_not_duplicate_boundary_pillar
+  right:
+    position:
+    - 2.0
+    - 0.0
+    - 0.0
+    type: facade_bay
+    ownership: own_outer_edge
+    rule: adjacent_bay_must_not_duplicate_boundary_pillar
+  top:
+    type: upper_floor_bay
+    position:
+    - 0.0
+    - 4.6
+    - 0.0
+  bottom:
+    type: building_foundation
+    position:
+    - 0.0
+    - 0.0
+    - 0.0
+  inner:
+    type: room
+    relation: entrance_access
+    local_direction: negative_z
+render:
+  cast_shadow: true
+  receive_shadow: true
+  transparent_glass: true
+  visible_interior: true
+  texture_repeats_per_meter: 1.0
+  lighting:
+    real_time_light_sources: 0
+    source: host_interior_lights
+    emissive_preview: true
+  preserve_opening: true
+  culling:
+    use_host_building_bounds: true
+  performance:
+    share_geometries_for_identical_sections: true
+    share_materials_across_instances: true
+    do_not_duplicate_shared_facade_boundaries: true
+validation:
+  fit_within_bounds: true
+  all_dimensions_positive: true
+  reject_geometry_blocking_portal: true
+  unique_component_ids: true
+  require_matching_side_connectors: true
+  check_transparent_surfaces: true
+  check_watertight_floor_joint: true
+  note: LOD0 4m facade bay with freely chosen 4.6m nominal ground-floor height; SVG preview; geometry tolerances
+    to verify in 3D.
