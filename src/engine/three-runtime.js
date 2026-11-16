@@ -52,7 +52,14 @@ export function createThreeGroup(solids, materialSpecs) {
     const [x, y, z] = solid.position;
     const mat = material(solid.material);
     let geometry;
-    if (solid.kind === 'box') {
+    if (solid.kind === 'mesh') {
+      // Non-indexed triangles preserve sharp face normals on low-poly roofs.
+      const coords=[];
+      for (const [a,b,c] of solid.faces) coords.push(...solid.vertices[a],...solid.vertices[b],...solid.vertices[c]);
+      geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position',new THREE.Float32BufferAttribute(coords,3));
+      geometry.computeVertexNormals();
+    } else if (solid.kind === 'box') {
       geometry = new THREE.BoxGeometry(...solid.size);
     } else if (solid.kind === 'sphere') {
       geometry = new THREE.SphereGeometry(solid.radius, 14, 10);

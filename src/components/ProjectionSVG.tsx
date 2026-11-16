@@ -15,7 +15,36 @@ export function ProjectionSVG({model,view,selected,onSelect,grid,dimensions}:Pro
  const part=(s:Solid,child:React.ReactNode)=> <g key={s.id} className={'part '+(selected===s.owner?'selected':'')} onClick={()=>onSelect(s.owner)} style={{cursor:'pointer'}}>{child}</g>;
  function shape(s:Solid){
    const [x,y]=project(...s.position),[w,h]=extents(s);
-   const common={stroke:'#53655a',strokeWidth:.018,fill:palette[s.material]??'#b0b6a9'};
+   const common={stroke:'#53655a',strokeWidth:.018,fill:model.materials[s.material]?.color??palette[s.material]??'#b0b6a9'};
+   if(s.kind==='mesh'&&s.vertices&&s.faces){
+     const material=model.materials[s.material]?.color??palette[s.material]??'#b0b6a9';
+     const shaded=(hex:string,brightness:number)=>{
+       if(!/^#[0-9a-fA-F]{6}$/.test(hex))return hex;
+       return '#'+[1,3,5].map(i=>Math.max(0,Math.min(255,Math.round(parseInt(hex.slice(i,i+2),16)*brightness))).toString(16).padStart(2,'0')).join('');
+     };
+     const polys=s.faces.map(ids=>{
+       const pts=ids.map(i=>{
+         const v=s.vertices![i];
+         return [v[0]+s.position[0],v[1]+s.position[1],v[2]+s.position[2]] as [number,number,number];
+       });
+       const [a,b,c]=pts;
+       const u=[b[0]-a[0],b[1]-a[1],b[2]-a[2]];
+       const v=[c[0]-a[0],c[1]-a[1],c[2]-a[2]];
+       const normal=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];
+       const mag=Math.hypot(...normal)||1;
+       const brightness=.78+.12*Math.abs(normal[0]/mag)+.13*Math.abs(normal[2]/mag)+.14*Math.max(0,normal[1]/mag);
+       const depth=pts.reduce((sum,p)=>sum+(view==='front'?p[2]:view==='side'?p[0]:p[1]),0)/3;
+       return {pts,brightness,depth};
+     }).sort((a,b)=>a.depth-b.depth);
+     return part(s,<>{polys.map((p,i)=>{
+       const projected=p.pts.map(point=>project(...point));
+       const area=(projected[1][0]-projected[0][0])*(projected[2][1]-projected[0][1])-(projected[1][1]-projected[0][0]);
+       if(Math.abs(area)<1e-8)return null;
+       const d='M '+projected.map(v=>v.join(' ')).join(' L ')+' Z';
+       const fill=shaded(material,p.brightness);
+       return <path key={i} d={d} fill={fill} stroke={fill} strokeWidth=".003"/>;
+     })}</>);
+   }
    if(s.kind==='spandrel'&&view==='front'){
      const r=s.radius??0,cx=x+(s.cutoutX??0),top=y-h/2,bottom=y+h/2;
      const d=`M ${x-w/2} ${bottom} L ${x-w/2} ${top} L ${x+w/2} ${top} L ${x+w/2} ${bottom} L ${cx+r} ${bottom} A ${r} ${r} 0 0 0 ${cx-r} ${bottom} L ${x-w/2} ${bottom} Z`;
