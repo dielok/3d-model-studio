@@ -21,6 +21,13 @@ export type ComponentSpec = {
   center?: Vec3;
   size?: Vec3;
   radius?: number;
+  sides?: number;
+  height?: number;
+  top_radius?: number;
+  bottom_radius?: number;
+  rotation_y?: number; // degrees around vertical Y axis
+  vertices?: Vec3[];
+  faces?: [number,number,number][];
   sections?: Array<{id:string;from_y:number;to_y:number;width:number;depth:number;material?:string}>;
   clear_width?: number;
   straight_height?: number;
@@ -50,10 +57,12 @@ export type BuildingModel = {
   [key:string]: unknown;
 };
 export type Solid = {
-  id:string; owner:string; kind:'box'|'sphere'|'arch'|'keystone'|'fanlight'|'spandrel';
+  id:string; owner:string; kind:'box'|'sphere'|'arch'|'keystone'|'fanlight'|'spandrel'|'mesh';
   material:string;
   position:Vec3;
   size?:Vec3;
+  vertices?:Vec3[];
+  faces?: [number,number,number][];
   radius?:number;
   ri?:number;
   ro?:number;
