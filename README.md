@@ -136,3 +136,13 @@ Every triangulated `mesh`, `polygon_prism`, `polygon_frustum`, and rotated box g
 The exported Three.js function accepts optional `{assetBaseUrl:'/your-assets/'}` to locate relative files: `scene.add(createModel({assetBaseUrl:'/'}))`. The export is JavaScript and does not include texture image binaries; copy `public/textures` to your deployment or configure absolute URLs.
 
 **Try it:** open `public/models/octagonal-textured-demo.yaml` in Model Studio. Its kiosk-green surface uses three locally included, simple generated SVG maps; replace these with CC0 PBR image maps once the pipeline is verified.
+
+### Kiosk paving: Poly Haven cobblestone_pavement
+
+The full kiosk model (`public/models/hackeburg_octagonal_newspaper_kiosk_colored_lod0.yaml`) now uses a tiled PBR material for `pavement_surface`. The 14 old geometrically modelled joint lines have been removed to avoid double joints. The existing `paving` material uses:
+
+- `public/textures/cobblestone_pavement/color.jpg` (sRGB, 2K from the supplied diffuse JPG)
+- `public/textures/cobblestone_pavement/normal.png` (linear, 2K converted from supplied OpenGL normal EXR)
+- `public/textures/cobblestone_pavement/roughness.png` (linear, 2K converted from supplied roughness EXR)
+
+**Important:** These image assets must be added to the repository's `public/textures/cobblestone_pavement/` directory before the material can render. They are *not* stored in this commit: the image conversions are delivered separately. The supplied displacement map is not connected (the current Studio material loader has no displacement support). `uv.repeat: [1,1]` maps the entire supplied cobblestone pattern once across the existing 3.98 m square box face; adjust after visual scale inspection. Missing assets will log warnings and the geometry remains visible.

@@ -34,8 +34,15 @@ placement:
 materials:
   paving:
     type: standard
-    color: '#c8c3b9'
-    roughness: 0.97
+    color: '#ffffff'
+    roughness: 1.0
+    metalness: 0.0
+    textures:
+      albedo: textures/cobblestone_pavement/color.jpg
+      normal: textures/cobblestone_pavement/normal.png
+      roughness: textures/cobblestone_pavement/roughness.png
+    uv:
+      repeat: [1, 1]
   paving_joint:
     type: standard
     color: '#9f9d96'
@@ -156,7 +163,7 @@ components:
   - 3.98
   - 0.014
   - 3.98
-- id: paving_joint_x_01
+
   shape: box
   material: paving_joint
   position:
@@ -167,7 +174,7 @@ components:
   - 0.008
   - 0.003
   - 3.94
-- id: paving_joint_x_02
+
   shape: box
   material: paving_joint
   position:
@@ -178,7 +185,7 @@ components:
   - 0.008
   - 0.003
   - 3.94
-- id: paving_joint_x_03
+
   shape: box
   material: paving_joint
   position:
@@ -189,7 +196,7 @@ components:
   - 0.008
   - 0.003
   - 3.94
-- id: paving_joint_x_04
+
   shape: box
   material: paving_joint
   position:
@@ -200,7 +207,7 @@ components:
   - 0.008
   - 0.003
   - 3.94
-- id: paving_joint_x_05
+
   shape: box
   material: paving_joint
   position:
@@ -211,7 +218,7 @@ components:
   - 0.008
   - 0.003
   - 3.94
-- id: paving_joint_x_06
+
   shape: box
   material: paving_joint
   position:
@@ -222,7 +229,7 @@ components:
   - 0.008
   - 0.003
   - 3.94
-- id: paving_joint_x_07
+
   shape: box
   material: paving_joint
   position:
@@ -233,7 +240,7 @@ components:
   - 0.008
   - 0.003
   - 3.94
-- id: paving_joint_z_01
+
   shape: box
   material: paving_joint
   position:
@@ -244,7 +251,7 @@ components:
   - 3.94
   - 0.003
   - 0.008
-- id: paving_joint_z_02
+
   shape: box
   material: paving_joint
   position:
@@ -255,7 +262,7 @@ components:
   - 3.94
   - 0.003
   - 0.008
-- id: paving_joint_z_03
+
   shape: box
   material: paving_joint
   position:
@@ -266,7 +273,7 @@ components:
   - 3.94
   - 0.003
   - 0.008
-- id: paving_joint_z_04
+
   shape: box
   material: paving_joint
   position:
@@ -277,7 +284,7 @@ components:
   - 3.94
   - 0.003
   - 0.008
-- id: paving_joint_z_05
+
   shape: box
   material: paving_joint
   position:
@@ -288,7 +295,7 @@ components:
   - 3.94
   - 0.003
   - 0.008
-- id: paving_joint_z_06
+
   shape: box
   material: paving_joint
   position:
@@ -299,7 +306,7 @@ components:
   - 3.94
   - 0.003
   - 0.008
-- id: paving_joint_z_07
+
   shape: box
   material: paving_joint
   position:
@@ -1792,7 +1799,7 @@ components:
   - 0.009
   rotation_y: -18
 design_notes:
-  stage: 1 - coloured geometrically accurate LOD0 blockout
+  stage: 2 - PBR paving texture on coloured LOD0 geometry
   reference: Hackeburg architectural CAD sheet with front/side/top/isometric octagonal kiosk
   roof: Exact 8-sided frustum, not a stack of square boxes. Eight inclined trapezoid planes generated in Three.js.
   facade: Eight radial glazing bays with frames; the front bay has a double leaf glass door.
@@ -1801,3 +1808,4 @@ design_notes:
     art. SVG renderer uses polygon triangulation and simplified depth sorting. No artificial building behind this
     kiosk.
   excluded: Litfasssaeule, bollards and broader plaza intentionally excluded.
+  paving_texture: Poly Haven cobblestone_pavement; maps are distributed separately in public/textures/cobblestone_pavement. Displacement not used; paving joints are now in the texture, not modeled.
