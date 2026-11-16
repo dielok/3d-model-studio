@@ -3,6 +3,8 @@ import type { BuildingModel } from '../types/model';
 
 const record = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
 const positive = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v) && v > 0;
+const finite = (v:unknown):v is number => typeof v==='number'&&Number.isFinite(v);
+const vec3=(v:unknown):boolean=>Array.isArray(v)&&v.length===3&&v.every(finite);
 
 export function parseModel(source: string): {model:BuildingModel; warnings:string[]} {
   const raw: unknown = yaml.load(source, {json: false});
@@ -19,6 +21,17 @@ export function parseModel(source: string): {model:BuildingModel; warnings:strin
     if(!record(c) || typeof c.id !== 'string' || !c.id.trim()) throw new Error('Jede Komponente braucht eine gültige id.');
     if(ids.has(c.id)) throw new Error(`Doppelte Komponenten-ID: ${c.id}`);
     ids.add(c.id);
+    if(c.rotation_y!==undefined&&!finite(c.rotation_y))throw new Error(`${c.id}: rotation_y muss eine endliche Gradzahl sein.`);
+    if(c.shape==='polygon_prism'||c.shape==='polygon_frustum'){
+      if(!Number.isInteger(c.sides)||Number(c.sides)<3||Number(c.sides)>64)throw new Error(`${c.id}: sides muss zwischen 3 und 64 liegen.`);
+      if(!positive(c.height)||!vec3(c.position))throw new Error(`${c.id}: height > 0 und position [x,y,z] erforderlich.`);
+      if(c.shape==='polygon_prism'&&!positive(c.radius))throw new Error(`${c.id}: radius muss positiv sein.`);
+      if(c.shape==='polygon_frustum'&&(!positive(c.bottom_radius)||!finite(c.top_radius)||Number(c.top_radius)<0))throw new Error(`${c.id}: bottom_radius > 0 und top_radius >= 0 erforderlich.`);
+    }
+    if(c.shape==='mesh'){
+      if(!vec3(c.position)||!Array.isArray(c.vertices)||c.vertices.length<3||c.vertices.length>1024||!c.vertices.every(vec3))throw new Error(`${c.id}: mesh benötigt 3–1024 gültige vertices.`);
+      if(!Array.isArray(c.faces)||c.faces.length===0||c.faces.length>2048||!c.faces.every((f:unknown)=>Array.isArray(f)&&f.length===3&&f.every((i:unknown)=>Number.isInteger(i)&&Number(i)>=0&&Number(i)<(c.vertices as unknown[]).length)))throw new Error(`${c.id}: faces müssen gültige Dreiecksindizes sein.`);
+    }
     if(typeof c.shape !== 'string' && typeof c.instance_of !== 'string') throw new Error(`Komponente ${c.id}: shape oder instance_of fehlt.`);
   }
   for(const c of raw.components){

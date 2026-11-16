@@ -1,4 +1,5 @@
 import type { BuildingModel,ComponentSpec,ResolvedModel,Solid,Vec3 } from '../types/model';
+import {polygonFrustum,rotatedBox,transformMesh} from './polygon-mesh';
 
 const num=(v:unknown,fallback=0):number=>typeof v==='number'&&Number.isFinite(v)?v:fallback;
 const v3=(v:unknown,other:Vec3=[0,0,0]):Vec3=>Array.isArray(v)&&v.length===3&&v.every(n=>typeof n==='number'&&Number.isFinite(n))?v as Vec3:other;
@@ -13,7 +14,8 @@ export function resolveModel(model:BuildingModel, options:{height?:number;interi
   const solids:Solid[]=[];
   const warnings:string[]=[];
   const components=new Map(model.components.map(c=>[c.id,c]));
-  const lift=(y:number)=>y>=3.99?y+delta:y; // Legacy version-2 height anchors are shifted.
+  const legacyEntrance=model.id.includes('entrance');
+  const lift=(y:number)=>legacyEntrance&&y>=3.99?y+delta:y; // Legacy entrance-specific height adjustment.
   const box=(id:string,owner:string,material:string,position:Vec3,size:Vec3)=>{
     if(size.some(n=>!Number.isFinite(n)||n<=0)){warnings.push(`${id}: ungültige Abmessung`);return;}
     solids.push({id,owner,kind:'box',material,position:position.map(round) as Vec3,size:size.map(round) as Vec3});
@@ -27,7 +29,24 @@ export function resolveModel(model:BuildingModel, options:{height?:number;interi
     const shape=c.shape;
     if(shape==='box'){
       const p:Vec3=[pos[0],lift(pos[1]),pos[2]];
-      box(owner,owner,material,p,v3(c.size));return;
+      const size=v3(c.size);
+      if(c.rotation_y!==undefined&&c.rotation_y!==0){
+        const mesh=rotatedBox(size,num(c.rotation_y));
+        solids.push({id:owner,owner,kind:'mesh',material,position:p,...mesh});
+      }else box(owner,owner,material,p,size);
+      return;
+    }
+    if(shape==='polygon_prism'||shape==='polygon_frustum'){
+      const sides=num(c.sides);
+      const bottom=shape==='polygon_prism'?num(c.radius):num(c.bottom_radius);
+      const top=shape==='polygon_prism'?bottom:num(c.top_radius);
+      const mesh=polygonFrustum(sides,bottom,top,num(c.height),num(c.rotation_y));
+      solids.push({id:owner,owner,kind:'mesh',material,position:pos,...mesh});
+      return;
+    }
+    if(shape==='mesh'){
+      solids.push({id:owner,owner,kind:'mesh',material,position:pos,vertices:transformMesh(c.vertices??[],num(c.rotation_y)),faces:c.faces??[]});
+      return;
     }
     if(shape==='sectioned_pillar'){
       for(const part of c.sections??[]){const a=lift(num(part.from_y)),b=lift(num(part.to_y));
@@ -97,7 +116,7 @@ export function resolveModel(model:BuildingModel, options:{height?:number;interi
   // with pillar front at ~.35. No layer hacks required in the 3D projector.
   // A free-standing facade bay does not include a solid host wall; the arched_opening
   // references an external host_ground_floor_shell that must be cut by the building system.
-  warnings.push('portal_opening ist eine Aussparung im externen host_ground_floor_shell. In der Modul-Vorschau wird keine geschlossene Wand erzeugt.');
-  if(Math.abs(delta)>1e-6)warnings.push('Höhenvariation: obere Pfeiler-/Gesimsteile verschoben; vollständige parametrisierte Neuproportionierung folgt.');
+  if(model.components.some(c=>c.id==='portal_opening'))warnings.push('portal_opening ist eine Aussparung im externen host_ground_floor_shell. In der Modul-Vorschau wird keine geschlossene Wand erzeugt.');
+  if(legacyEntrance&&Math.abs(delta)>1e-6)warnings.push('Höhenvariation: obere Pfeiler-/Gesimsteile verschoben; vollständige parametrisierte Neuproportionierung folgt.');
   return {id:model.id,size:{...model.size,height:H},materials:model.materials,solids,warnings};
 }
