@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {createThreeGroup} from '../engine/three-runtime.js';
 import type {ResolvedModel} from '../types/model';
+import {createStudioLighting} from '../engine/studio-lighting';
 
 type Props={model:ResolvedModel;selected:string|null;onSelect:(id:string)=>void;showGrid:boolean};
 export function ThreeViewport({model,selected,onSelect,showGrid}:Props){
@@ -15,17 +16,17 @@ export function ThreeViewport({model,selected,onSelect,showGrid}:Props){
   catch(e){host.textContent='WebGL konnte nicht initialisiert werden: '+String(e);return}
   renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));renderer.setSize(host.clientWidth,host.clientHeight);
   renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure=1.25;renderer.shadowMap.enabled=true;
+  renderer.toneMappingExposure=1.15;renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   host.append(renderer.domElement);
   const scene=new THREE.Scene();scene.background=new THREE.Color('#273b37');
   const camera=new THREE.PerspectiveCamera(36,host.clientWidth/Math.max(host.clientHeight,1),.01,200);
   camera.position.set(7,6.2,12);
   const controls=new OrbitControls(camera,renderer.domElement);controls.enableDamping=true;
   controls.target.set(0,model.size.height*.46,0);controls.minDistance=1.5;controls.maxDistance=35;
-  const ambient=new THREE.HemisphereLight('#eef7ff','#786f60',2.2);scene.add(ambient);
-  const sun=new THREE.DirectionalLight('#fff0d7',3);sun.position.set(-4,10,8);sun.castShadow=true;
-  sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-9;sun.shadow.camera.right=9;
-  sun.shadow.camera.top=10;sun.shadow.camera.bottom=-10;sun.shadow.bias=-.0003;scene.add(sun);
+  // Front points toward +Z. The low afternoon sun is behind the kiosk
+  // and to the viewer's left, at (-X, +Y, -Z).
+  const lighting=createStudioLighting();
+  scene.add(lighting.ambient,lighting.sun,lighting.sun.target);
   const ground=new THREE.Mesh(new THREE.PlaneGeometry(24,24),new THREE.MeshStandardMaterial({color:'#536f60',roughness:1}));
   ground.rotation.x=-Math.PI/2;ground.position.y=-.08;ground.receiveShadow=true;scene.add(ground);
   const grid=new THREE.GridHelper(24,24,0xbccdb8,0x8ea398);grid.position.y=-.073;grid.visible=showGrid;scene.add(grid);
@@ -49,7 +50,7 @@ export function ThreeViewport({model,selected,onSelect,showGrid}:Props){
   const resize=new ResizeObserver(()=>{const w=Math.max(host.clientWidth,1),h=Math.max(host.clientHeight,1);camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h)});resize.observe(host);
   return ()=>{
     resize.disconnect();cancelAnimationFrame(frame);renderer.domElement.removeEventListener('pointerdown',onDown);renderer.domElement.removeEventListener('pointerup',onUp);
-    controls.dispose();ground.geometry.dispose();(ground.material as THREE.Material).dispose();
+    controls.dispose();lighting.sun.shadow.dispose();ground.geometry.dispose();(ground.material as THREE.Material).dispose();
     grid.geometry.dispose();if(Array.isArray(grid.material))grid.material.forEach(m=>m.dispose());else grid.material.dispose();
     group.traverse(o=>{if(o instanceof THREE.Mesh)o.geometry.dispose()});
     const materials=new Set<THREE.Material>();group.traverse(o=>{if(o instanceof THREE.Mesh){const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>materials.add(m))}});group.userData.disposeTextures?.();materials.forEach(m=>m.dispose());

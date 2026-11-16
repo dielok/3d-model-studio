@@ -146,3 +146,7 @@ The full kiosk model (`public/models/hackeburg_octagonal_newspaper_kiosk_colored
 - `public/textures/cobblestone_pavement/roughness.png` (linear, 2K converted from supplied roughness EXR)
 
 **Important:** These image assets must be added to the repository's `public/textures/cobblestone_pavement/` directory before the material can render. They are *not* stored in this commit: the image conversions are delivered separately. The supplied displacement map is not connected (the current Studio material loader has no displacement support). `uv.repeat: [1,1]` maps the entire supplied cobblestone pattern once across the existing 3.98 m square box face; adjust after visual scale inspection. Missing assets will log warnings and the geometry remains visible.
+
+### Studio lighting: low afternoon sun
+
+The Three.js preview now uses a warm, low sun at `[-8, 5, -6]` with its target at `[0, 1.2, 0]`. With the kiosk front facing `+Z`, the sun is behind and to the left when viewed from the front. The sunlight uses a 2048² soft shadow map and a warm, reduced-intensity hemisphere fill. The preview also uses ACES exposure 1.15 and PCF soft shadows. Geometry, materials and YAML are unchanged by this lighting adjustment. Values live in `src/engine/studio-lighting.ts`, so they can be calibrated independently of the models.
