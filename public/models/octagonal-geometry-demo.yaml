@@ -1,0 +1,68 @@
+# Geometrie-Demonstrator – noch kein fertig ausgestalteter Zeitungskiosk
+schema: hackeburg.model.v1
+id: geometry_octagonal_kiosk_demo
+version: 1
+lod: 0
+size: {width: 4, height: 4, depth: 4}
+materials:
+  kiosk_green: {type: standard, color: '#234f42', roughness: 0.7}
+  roof_green: {type: standard, color: '#365f53', roughness: 0.8}
+  glass: {type: physical, color: '#a0c4ca', roughness: 0.13, transmission: 0.65}
+  brass: {type: standard, color: '#c7a46b', metalness: 0.8, roughness: 0.3}
+components:
+  - id: octagonal_body
+    shape: polygon_prism
+    material: kiosk_green
+    position: [0, 1.32, 0]
+    sides: 8
+    radius: 1.43
+    height: 2.4
+    rotation_y: -22.5
+  - id: sloped_octagonal_roof
+    shape: polygon_frustum
+    material: roof_green
+    position: [0, 2.82, 0]
+    sides: 8
+    bottom_radius: 1.8
+    top_radius: 0.42
+    height: 0.65
+    rotation_y: -22.5
+  - id: lantern
+    shape: polygon_prism
+    material: glass
+    position: [0, 3.35, 0]
+    sides: 8
+    radius: 0.39
+    height: 0.41
+    rotation_y: -22.5
+  - id: lantern_roof
+    shape: polygon_frustum
+    material: roof_green
+    position: [0, 3.65, 0]
+    sides: 8
+    bottom_radius: 0.51
+    top_radius: 0
+    height: 0.25
+    rotation_y: -22.5
+  - id: finial
+    shape: sphere
+    material: brass
+    position: [0, 3.88, 0]
+    radius: 0.09
+  - id: front_glazing
+    shape: box
+    material: glass
+    position: [0, 1.55, 1.34]
+    size: [0.98, 1.38, 0.035]
+  - id: right_glazing
+    shape: box
+    material: glass
+    position: [0.9475, 1.55, 0.9475]
+    size: [0.98, 1.38, 0.035]
+    rotation_y: 45
+  - id: left_glazing
+    shape: box
+    material: glass
+    position: [-0.9475, 1.55, 0.9475]
+    size: [0.98, 1.38, 0.035]
+    rotation_y: -45

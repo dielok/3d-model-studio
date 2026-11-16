@@ -93,3 +93,20 @@ tests/                           Vitest-Tests
 ### Round-arch cutouts
 
 Use `shape: arched_opening`, `operation: subtract_from_wall` and `wall_id` to subtract the external semicircle of an arch from an existing `box` wall plate. The compiler turns the box into one `spandrel` shape with a continuous curved underside; both SVG and Three.js render the same contour. Currently supported when the arch spring line coincides with the target box bottom and the opening fits inside its width and height. External host-wall openings remain separate building-system responsibilities.
+
+## Polygonale Bauteile und geneigte Dachflächen
+
+Neue Formen im bestehenden `hackeburg.model.v1`:
+
+- `polygon_prism`: `position`, `sides: 8`, `radius`, `height`, optional `rotation_y` in Grad. Achteckiger Kioskgrundkörper.
+- `polygon_frustum`: `position`, `sides`, `bottom_radius`, `top_radius` (0 erlaubt), `height`, `rotation_y`. Polygonales geneigtes Dach mit echter Dachschräge.
+- `mesh`: `position`, `vertices: [[x,y,z], ...]`, `faces: [[i,j,k], ...]` mit nullbasierten Indizes: beliebige triangulierte geneigte Flächen.
+- `box` mit optionaler `rotation_y`: versetzte und radiale Glas- und Rahmenmodule.
+
+`position` gibt den geometrischen Mittelpunkt an; +Y ist oben, +Z zur Straße. `rotation_y` ist in Grad. SVG und Three.js verwenden dieselben Vertex- und Face-Daten. Der Three.js-Codeexport übernimmt die Runtime und kann die neuen Formen ebenfalls darstellen.
+
+### Demo
+
+`public/models/octagonal-geometry-demo.yaml` im YAML-Editor importieren: achteckiger Korpus, geneigtes Dach, Laterne, Kugel und drei transparente Fassadenfelder.
+
+Die orthografischen SVG-Projektionen verwenden die tatsächlichen Dreiecke, aber weiterhin nur eine einfache Tiefensortierung statt vollständiger CAD-Hidden-Line-Berechnung. Dies ist eine Geometrie-Testszene, **noch kein fertig ausgearbeitetes Kiosk-Asset**.

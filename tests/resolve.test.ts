@@ -94,3 +94,57 @@ components:
    expect(result.warnings.some(w=>w.includes('spandrel_arch_cutout'))).toBe(true);
  });
 });
+
+describe('polygonal kiosk primitives',()=>{
+ const yaml=`
+schema: hackeburg.model.v1
+id: octagonal_test
+size: {width: 4, height: 4, depth: 4}
+materials: {roof: {color: '#235544'}, glass: {color: '#9fccee'}}
+components:
+  - id: kiosk_body
+    shape: polygon_prism
+    material: roof
+    sides: 8
+    radius: 1.4
+    height: 2.5
+    position: [0, 1.25, 0]
+    rotation_y: -22.5
+  - id: kiosk_roof
+    shape: polygon_frustum
+    material: roof
+    sides: 8
+    bottom_radius: 1.8
+    top_radius: 0.35
+    height: 0.8
+    position: [0, 2.9, 0]
+    rotation_y: -22.5
+  - id: window
+    shape: box
+    material: glass
+    position: [0, 1.45, 1.32]
+    size: [0.8, 1.2, 0.03]
+    rotation_y: 45
+  - id: slope
+    shape: mesh
+    material: roof
+    position: [0, 0, 0]
+    vertices: [[-1, 0, -1], [1, 0, -1], [1, 1, 1], [-1, 1, 1]]
+    faces: [[0, 1, 2], [0, 2, 3]]
+`;
+ it('resolves eight-sided volumes, roof and rotated windows to real meshes',()=>{
+   const {model}=parseModel(yaml);
+   const result=resolveModel(model);
+   expect(result.solids).toHaveLength(4);
+   expect(result.solids.every(s=>s.kind==='mesh')).toBe(true);
+   expect(result.solids[0].vertices).toHaveLength(16);
+   expect(result.solids[0].faces).toHaveLength(28);
+   expect(result.solids[1].vertices?.some(v=>v[1]===0.4)).toBe(true);
+   expect(result.solids[2].faces).toHaveLength(12);
+   expect(result.solids[3].faces).toHaveLength(2);
+ });
+ it('rejects invalid polygon radius and invalid mesh face indices',()=>{
+   expect(()=>parseModel(yaml.replace('bottom_radius: 1.8','bottom_radius: -1'))).toThrow(/bottom_radius/);
+   expect(()=>parseModel(yaml.replace('faces: [[0, 1, 2], [0, 2, 3]]','faces: [[0, 1, 99]]'))).toThrow(/faces/);
+ });
+});
