@@ -11,6 +11,8 @@ export type MaterialSpec = {
   emissive_intensity?: number;
   depth_write?: boolean;
   normal_map?: string;
+  textures?: {albedo?:string; normal?:string; roughness?:string};
+  uv?: {repeat?:[number,number]};
 };
 export type ComponentSpec = {
   id: string;

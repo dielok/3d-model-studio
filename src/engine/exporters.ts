@@ -10,5 +10,5 @@ export function threeCode(model:ResolvedModel){
   return `/** Hackeburg: ${model.id} — generierter Three.js-Code.\n * npm install three\n * import { createModel } from './${model.id}.js';\n * scene.add(createModel());\n * Hinweis: host shell / Öffnungs-Boolean wird vom Gebäude-Generator bereitgestellt.\n */\n`
   + rawThreeRuntime + `\n\nconst solids = ${JSON.stringify(model.solids,null,2)};\n`
   + `const materials = ${JSON.stringify(model.materials,null,2)};\n`
-  + `export function createModel() { return createThreeGroup(solids, materials); }\n`;
+  + `export function createModel(options = {}) { return createThreeGroup(solids, materials, options); }\n`;
 }

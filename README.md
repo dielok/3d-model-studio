@@ -110,3 +110,29 @@ Neue Formen im bestehenden `hackeburg.model.v1`:
 `public/models/octagonal-geometry-demo.yaml` im YAML-Editor importieren: achteckiger Korpus, geneigtes Dach, Laterne, Kugel und drei transparente Fassadenfelder.
 
 Die orthografischen SVG-Projektionen verwenden die tatsächlichen Dreiecke, aber weiterhin nur eine einfache Tiefensortierung statt vollständiger CAD-Hidden-Line-Berechnung. Dies ist eine Geometrie-Testszene, **noch kein fertig ausgearbeitetes Kiosk-Asset**.
+
+## PBR Texture maps in YAML
+
+Materials support optional `textures.albedo`, `textures.normal`, `textures.roughness`, and `uv.repeat: [u, v]`. Example:
+
+```yaml
+materials:
+  kiosk_green:
+    type: standard
+    color: '#ffffff' # multiplied with albedo (use white for unmodified texture colors)
+    roughness: 0.8
+    textures:
+      albedo: textures/kiosk-green/color.svg
+      normal: textures/kiosk-green/normal.svg
+      roughness: textures/kiosk-green/roughness.svg
+    uv:
+      repeat: [1, 1]
+```
+
+Use local files in `public/textures/` (served by Vite at `/textures/`) or CORS-enabled https URLs. The three channels are optional; missing maps fall back to existing material values. Albedo uses sRGB; normal and roughness maps use no color-space conversion. Loaded textures are cached per scene/map/repeat combination and disposed when the preview unloads.
+
+Every triangulated `mesh`, `polygon_prism`, `polygon_frustum`, and rotated box gets UV coordinates generated from physical coordinates (roof/ground projected on XZ, vertical walls projected onto the horizontal tangent and height). Ordinary box and extrusion shapes retain their Three.js-generated UVs. For roofs with arbitrary shapes this is a useful default, **not a full seam-aware unwrapping**. For the first iteration `uv.repeat` controls the map repetition; exact texel density can vary between native boxes and triangulated surfaces.
+
+The exported Three.js function accepts optional `{assetBaseUrl:'/your-assets/'}` to locate relative files: `scene.add(createModel({assetBaseUrl:'/'}))`. The export is JavaScript and does not include texture image binaries; copy `public/textures` to your deployment or configure absolute URLs.
+
+**Try it:** open `public/models/octagonal-textured-demo.yaml` in Model Studio. Its kiosk-green surface uses three locally included, simple generated SVG maps; replace these with CC0 PBR image maps once the pipeline is verified.

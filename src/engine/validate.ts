@@ -13,6 +13,20 @@ export function parseModel(source: string): {model:BuildingModel; warnings:strin
   if(typeof raw.id !== 'string' || !raw.id.trim()) throw new Error('Das Modell benötigt eine ID.');
   if(!record(raw.size) || !positive(raw.size.width) || !positive(raw.size.height) || !positive(raw.size.depth)) throw new Error('size.width, size.height und size.depth müssen positiv sein.');
   if(!record(raw.materials)) throw new Error('materials muss eine Material-Tabelle sein.');
+  for(const [id,material] of Object.entries(raw.materials)){
+    if(!record(material))throw new Error(`Material ${id}: muss ein Objekt sein.`);
+    if(material.textures!==undefined){
+      if(!record(material.textures))throw new Error(`Material ${id}: textures muss ein Objekt sein.`);
+      for(const [channel,path] of Object.entries(material.textures)){
+        if(!['albedo','normal','roughness'].includes(channel))throw new Error(`Material ${id}: unbekannter Texturkanal ${channel}.`);
+        if(typeof path!=='string'||!path.trim()||path.length>2048||/^(?:javascript|file):/i.test(path)||path.startsWith('//'))throw new Error(`Material ${id}: ungültiger Pfad für ${channel}.`);
+      }
+    }
+    if(material.uv!==undefined){
+      if(!record(material.uv)||!Array.isArray(material.uv.repeat)||material.uv.repeat.length!==2||
+        !material.uv.repeat.every((v:unknown)=>positive(v)&&v<=128))throw new Error(`Material ${id}: uv.repeat muss zwei positive Zahlen <= 128 enthalten.`);
+    }
+  }
   if(!Array.isArray(raw.components)) throw new Error('components muss eine Liste sein.');
   if(raw.components.length > 400) throw new Error('Maximal 400 Komponenten pro Modell.');
   const ids=new Set<string>();

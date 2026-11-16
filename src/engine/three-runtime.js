@@ -2,18 +2,55 @@
 import * as THREE from 'three';
 
 /** @param {Array} solids @param {Record<string, object>} materialSpecs */
-export function createThreeGroup(solids, materialSpecs) {
+export function createThreeGroup(solids, materialSpecs, options = {}) {
   const group = new THREE.Group();
   group.name = 'HackeburgFacadeModule';
   const cache = new Map();
+  const textureCache = new Map();
+  const loader = new THREE.TextureLoader();
+  let disposed = false;
+  const assetBaseUrl = options.assetBaseUrl || '';
+  const resolveAsset = path => {
+    if (/^(https?:|data:|\/)/i.test(path)) return path;
+    return assetBaseUrl ? assetBaseUrl.replace(/\/?$/, '/') + path.replace(/^\.\//, '') : path;
+  };
+  const loadMap = (path, colorSpace, repeat) => {
+    if (!path) return null;
+    const url = resolveAsset(path);
+    const key = JSON.stringify([url, colorSpace, repeat]);
+    if (textureCache.has(key)) return textureCache.get(key);
+    const texture = loader.load(url, () => {
+      if (disposed) texture.dispose();
+    }, undefined, error => {
+      if (!disposed) console.warn('Hackeburg: texture failed to load', url, error);
+    });
+    texture.colorSpace = colorSpace;
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(...repeat);
+    texture.anisotropy = 4;
+    textureCache.set(key, texture);
+    return texture;
+  };
+  // Called by ThreeViewport when unloading a scene. Async arrivals are safe to dispose.
+  group.userData.disposeTextures = () => {
+    disposed = true;
+    for (const texture of textureCache.values()) texture.dispose();
+    textureCache.clear();
+  };
   const material = (id) => {
     if (cache.has(id)) return cache.get(id);
     const spec = materialSpecs[id] || {};
+    const maps = spec.textures || {};
+    const repeat = spec.uv?.repeat || [1, 1];
     const params = {
       color: spec.color || '#b8b6ab',
       roughness: spec.roughness ?? 0.85,
       metalness: spec.metalness ?? 0,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
+      map: loadMap(maps.albedo, THREE.SRGBColorSpace, repeat),
+      normalMap: loadMap(maps.normal || spec.normal_map, THREE.NoColorSpace, repeat),
+      roughnessMap: loadMap(maps.roughness, THREE.NoColorSpace, repeat)
     };
     let mat;
     if (spec.type === 'physical' || id === 'glass') {
@@ -58,6 +95,23 @@ export function createThreeGroup(solids, materialSpecs) {
       for (const [a,b,c] of solid.faces) coords.push(...solid.vertices[a],...solid.vertices[b],...solid.vertices[c]);
       geometry = new THREE.BufferGeometry();
       geometry.setAttribute('position',new THREE.Float32BufferAttribute(coords,3));
+      // Generate planar UVs in metres: roof/ground in XZ, walls along the
+      // horizontal face tangent + Y. Each roof facet receives consistent UVs.
+      const uv = [];
+      for (const [a,b,c] of solid.faces) {
+        const p=solid.vertices[a], q=solid.vertices[b], r=solid.vertices[c];
+        const ux=q[0]-p[0],uy=q[1]-p[1],uz=q[2]-p[2];
+        const vx=r[0]-p[0],vy=r[1]-p[1],vz=r[2]-p[2];
+        const nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx;
+        const len=Math.hypot(nx,ny,nz)||1;
+        if (Math.abs(ny)/len > 0.5) {
+          for (const v of [p,q,r]) uv.push(v[0],v[2]);
+        } else {
+          const tlen=Math.hypot(nz,nx)||1;
+          for (const v of [p,q,r]) uv.push((v[0]*nz-v[2]*nx)/tlen,v[1]);
+        }
+      }
+      geometry.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));
       geometry.computeVertexNormals();
     } else if (solid.kind === 'box') {
       geometry = new THREE.BoxGeometry(...solid.size);

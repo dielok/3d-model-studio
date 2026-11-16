@@ -52,7 +52,7 @@ export function ThreeViewport({model,selected,onSelect,showGrid}:Props){
     controls.dispose();ground.geometry.dispose();(ground.material as THREE.Material).dispose();
     grid.geometry.dispose();if(Array.isArray(grid.material))grid.material.forEach(m=>m.dispose());else grid.material.dispose();
     group.traverse(o=>{if(o instanceof THREE.Mesh)o.geometry.dispose()});
-    const materials=new Set<THREE.Material>();group.traverse(o=>{if(o instanceof THREE.Mesh){const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>materials.add(m))}});materials.forEach(m=>m.dispose());
+    const materials=new Set<THREE.Material>();group.traverse(o=>{if(o instanceof THREE.Mesh){const ms=Array.isArray(o.material)?o.material:[o.material];ms.forEach(m=>materials.add(m))}});group.userData.disposeTextures?.();materials.forEach(m=>m.dispose());
     renderer.dispose();renderer.domElement.remove();
   };
  },[model,showGrid]);
