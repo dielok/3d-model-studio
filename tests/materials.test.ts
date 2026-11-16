@@ -61,3 +61,21 @@ describe('YAML PBR maps and UVs',()=>{
     (mesh.material as THREE.Material).dispose();
   });
 });
+
+import {readFileSync} from 'node:fs';
+
+describe('committed kiosk model regression',()=>{
+ it('parses a complete component list without dangling paving-joint properties',()=>{
+   const source=readFileSync(new URL('../public/models/hackeburg_octagonal_newspaper_kiosk_colored_lod0.yaml',import.meta.url),'utf8');
+   const {model}=parseModel(source);
+   expect(model.components).toHaveLength(131);
+   expect(model.components.every(c=>typeof c.id==='string'&&!!c.shape)).toBe(true);
+   expect(model.components.some(c=>c.id.startsWith('paving_joint_'))).toBe(false);
+   expect(model.components.find(c=>c.id==='pavement_surface')?.material).toBe('paving');
+   expect(model.materials.paving.textures).toEqual({
+     albedo: 'textures/cobblestone_pavement/color.jpg',
+     normal: 'textures/cobblestone_pavement/normal.png',
+     roughness: 'textures/cobblestone_pavement/roughness.png'
+   });
+ });
+});
