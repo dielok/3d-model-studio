@@ -1,0 +1,1803 @@
+# Hackeburg · Zeitungskiosk · CAD-geometrisch korrekt · LOD0 Farbphase
+# Requires Model Studio with polygon_prism, polygon_frustum, rotation_y and mesh support.
+schema: hackeburg.model.v1
+id: hackeburg_octagonal_newspaper_kiosk_colored_lod0
+version: 1
+lod: 0
+kind: scene_asset
+style: hamburg_2026_octagonal_kiosk
+description: CAD-based eight-sided freestanding newspaper kiosk with true 8-sided wall structure, radial glazing,
+  inclined octagonal roof, glazed cupola, original dark-green and ivory color palette, 4x4 paved base, two flower
+  planters and chalkboard. No Minecraft/stair-stepped roof proxies. Litfass column excluded as requested for this
+  single-kiosk asset.
+coordinate_system:
+  units: meters
+  handedness: right
+  axes:
+    x: right
+    y: up
+    z: street
+  origin: center_of_4x4_tile
+size:
+  width: 4
+  height: 4.1
+  depth: 4
+placement:
+  cells_x: 1
+  cells_z: 1
+  cell_size_m: 4
+  footprint_m:
+  - 4
+  - 4
+  street_side: +z
+  default_rotation_degrees: 0
+materials:
+  paving:
+    type: standard
+    color: '#c8c3b9'
+    roughness: 0.97
+  paving_joint:
+    type: standard
+    color: '#9f9d96'
+    roughness: 0.98
+  stone:
+    type: standard
+    color: '#a9a49b'
+    roughness: 0.92
+  green_body:
+    type: standard
+    color: '#205044'
+    roughness: 0.76
+  green_trim:
+    type: standard
+    color: '#10382f'
+    roughness: 0.7
+  green_lighter:
+    type: standard
+    color: '#3c6d5e'
+    roughness: 0.83
+  roof_copper:
+    type: standard
+    color: '#36695d'
+    metalness: 0.3
+    roughness: 0.57
+  roof_seams:
+    type: standard
+    color: '#244b43'
+    metalness: 0.27
+    roughness: 0.58
+  ivory_sign:
+    type: standard
+    color: '#e9dcc2'
+    roughness: 0.86
+  glass:
+    type: physical
+    color: '#a5bec2'
+    roughness: 0.11
+    transmission: 0.65
+    thickness: 0.018
+    ior: 1.5
+  glass_dark:
+    type: physical
+    color: '#658f90'
+    roughness: 0.16
+    transmission: 0.45
+    thickness: 0.018
+    ior: 1.5
+  glass_warm:
+    type: standard
+    color: '#b69c72'
+    roughness: 0.84
+  brass:
+    type: standard
+    color: '#cda758'
+    metalness: 0.65
+    roughness: 0.33
+  dark_wood:
+    type: standard
+    color: '#694a33'
+    roughness: 0.92
+  planter_wood:
+    type: standard
+    color: '#896343'
+    roughness: 0.91
+  foliage:
+    type: standard
+    color: '#567e48'
+    roughness: 1
+  flower_pink:
+    type: standard
+    color: '#cf8792'
+    roughness: 1
+  flower_cream:
+    type: standard
+    color: '#ecd3bb'
+    roughness: 1
+  chalkboard:
+    type: standard
+    color: '#303a34'
+    roughness: 0.99
+  paper:
+    type: standard
+    color: '#dccdb0'
+    roughness: 0.95
+  paper_blue:
+    type: standard
+    color: '#8da9a8'
+    roughness: 0.95
+  awning_red:
+    type: standard
+    color: '#9b4b48'
+    roughness: 1
+  awning_white:
+    type: standard
+    color: '#e1d7c5'
+    roughness: 1
+components:
+- id: ground_base
+  shape: box
+  material: stone
+  position:
+  - 0.0
+  - 0.065
+  - 0.0
+  size:
+  - 4.0
+  - 0.13
+  - 4.0
+- id: pavement_surface
+  shape: box
+  material: paving
+  position:
+  - 0.0
+  - 0.137
+  - 0.0
+  size:
+  - 3.98
+  - 0.014
+  - 3.98
+- id: paving_joint_x_01
+  shape: box
+  material: paving_joint
+  position:
+  - -1.5
+  - 0.146
+  - 0.0
+  size:
+  - 0.008
+  - 0.003
+  - 3.94
+- id: paving_joint_x_02
+  shape: box
+  material: paving_joint
+  position:
+  - -1.0
+  - 0.146
+  - 0.0
+  size:
+  - 0.008
+  - 0.003
+  - 3.94
+- id: paving_joint_x_03
+  shape: box
+  material: paving_joint
+  position:
+  - -0.5
+  - 0.146
+  - 0.0
+  size:
+  - 0.008
+  - 0.003
+  - 3.94
+- id: paving_joint_x_04
+  shape: box
+  material: paving_joint
+  position:
+  - 0.0
+  - 0.146
+  - 0.0
+  size:
+  - 0.008
+  - 0.003
+  - 3.94
+- id: paving_joint_x_05
+  shape: box
+  material: paving_joint
+  position:
+  - 0.5
+  - 0.146
+  - 0.0
+  size:
+  - 0.008
+  - 0.003
+  - 3.94
+- id: paving_joint_x_06
+  shape: box
+  material: paving_joint
+  position:
+  - 1.0
+  - 0.146
+  - 0.0
+  size:
+  - 0.008
+  - 0.003
+  - 3.94
+- id: paving_joint_x_07
+  shape: box
+  material: paving_joint
+  position:
+  - 1.5
+  - 0.146
+  - 0.0
+  size:
+  - 0.008
+  - 0.003
+  - 3.94
+- id: paving_joint_z_01
+  shape: box
+  material: paving_joint
+  position:
+  - 0.0
+  - 0.146
+  - -1.5
+  size:
+  - 3.94
+  - 0.003
+  - 0.008
+- id: paving_joint_z_02
+  shape: box
+  material: paving_joint
+  position:
+  - 0.0
+  - 0.146
+  - -1.0
+  size:
+  - 3.94
+  - 0.003
+  - 0.008
+- id: paving_joint_z_03
+  shape: box
+  material: paving_joint
+  position:
+  - 0.0
+  - 0.146
+  - -0.5
+  size:
+  - 3.94
+  - 0.003
+  - 0.008
+- id: paving_joint_z_04
+  shape: box
+  material: paving_joint
+  position:
+  - 0.0
+  - 0.146
+  - 0.0
+  size:
+  - 3.94
+  - 0.003
+  - 0.008
+- id: paving_joint_z_05
+  shape: box
+  material: paving_joint
+  position:
+  - 0.0
+  - 0.146
+  - 0.5
+  size:
+  - 3.94
+  - 0.003
+  - 0.008
+- id: paving_joint_z_06
+  shape: box
+  material: paving_joint
+  position:
+  - 0.0
+  - 0.146
+  - 1.0
+  size:
+  - 3.94
+  - 0.003
+  - 0.008
+- id: paving_joint_z_07
+  shape: box
+  material: paving_joint
+  position:
+  - 0.0
+  - 0.146
+  - 1.5
+  size:
+  - 3.94
+  - 0.003
+  - 0.008
+- id: octagonal_stone_footing
+  shape: polygon_prism
+  material: stone
+  position:
+  - 0.0
+  - 0.215
+  - 0.0
+  sides: 8
+  radius: 1.28
+  height: 0.14
+  rotation_y: -22.5
+- id: octagonal_lower_panels
+  shape: polygon_prism
+  material: green_body
+  position:
+  - 0.0
+  - 0.515
+  - 0.0
+  sides: 8
+  radius: 1.22
+  height: 0.46
+  rotation_y: -22.5
+- id: octagonal_lower_sill
+  shape: polygon_prism
+  material: green_trim
+  position:
+  - 0.0
+  - 0.745
+  - 0.0
+  sides: 8
+  radius: 1.2449999999999999
+  height: 0.065
+  rotation_y: -22.5
+- id: octagonal_upper_sill
+  shape: polygon_prism
+  material: green_trim
+  position:
+  - 0.0
+  - 2.18
+  - 0.0
+  sides: 8
+  radius: 1.255
+  height: 0.09
+  rotation_y: -22.5
+- id: octagonal_cream_signage_belt
+  shape: polygon_prism
+  material: ivory_sign
+  position:
+  - 0.0
+  - 2.405
+  - 0.0
+  sides: 8
+  radius: 1.3
+  height: 0.31
+  rotation_y: -22.5
+- id: signage_edge_lower
+  shape: polygon_prism
+  material: green_trim
+  position:
+  - 0.0
+  - 2.238
+  - 0.0
+  sides: 8
+  radius: 1.32
+  height: 0.055
+  rotation_y: -22.5
+- id: signage_edge_upper
+  shape: polygon_prism
+  material: green_trim
+  position:
+  - 0.0
+  - 2.565
+  - 0.0
+  sides: 8
+  radius: 1.3399999999999999
+  height: 0.065
+  rotation_y: -22.5
+- id: front_glass_door_1
+  shape: box
+  material: glass_dark
+  position:
+  - -0.226
+  - 1.445
+  - 1.15213
+  size:
+  - 0.412
+  - 1.33
+  - 0.03
+- id: front_door_lower_panel_1
+  shape: box
+  material: green_body
+  position:
+  - -0.226
+  - 0.96
+  - 1.21213
+  size:
+  - 0.42
+  - 0.18
+  - 0.07
+- id: front_glass_door_2
+  shape: box
+  material: glass_dark
+  position:
+  - 0.226
+  - 1.445
+  - 1.15213
+  size:
+  - 0.412
+  - 1.33
+  - 0.03
+- id: front_door_lower_panel_2
+  shape: box
+  material: green_body
+  position:
+  - 0.226
+  - 0.96
+  - 1.21213
+  size:
+  - 0.42
+  - 0.18
+  - 0.07
+- id: front_door_middle_stile
+  shape: box
+  material: green_trim
+  position:
+  - 0.0
+  - 1.46
+  - 1.22713
+  size:
+  - 0.062
+  - 1.37
+  - 0.1
+- id: left_door_handle
+  shape: box
+  material: brass
+  position:
+  - -0.09
+  - 1.39
+  - 1.28713
+  size:
+  - 0.02
+  - 0.15
+  - 0.04
+- id: right_door_handle
+  shape: box
+  material: brass
+  position:
+  - 0.09
+  - 1.39
+  - 1.28713
+  size:
+  - 0.02
+  - 0.15
+  - 0.04
+- id: bay_00_frame_left
+  shape: box
+  material: green_trim
+  position:
+  - -0.44187
+  - 1.48
+  - 1.21213
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+- id: bay_00_frame_right
+  shape: box
+  material: green_trim
+  position:
+  - 0.44187
+  - 1.48
+  - 1.21213
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+- id: bay_00_top_frame
+  shape: box
+  material: green_trim
+  position:
+  - 0.0
+  - 2.18
+  - 1.21213
+  size:
+  - 0.93375
+  - 0.085
+  - 0.095
+- id: bay_00_bottom_frame
+  shape: box
+  material: green_trim
+  position:
+  - 0.0
+  - 0.785
+  - 1.21213
+  size:
+  - 0.93375
+  - 0.085
+  - 0.1
+- id: bay_00_sign_base
+  shape: box
+  material: ivory_sign
+  position:
+  - 0.0
+  - 2.408
+  - 1.21904
+  size:
+  - 0.85875
+  - 0.225
+  - 0.035
+- id: bay_00_sign_edge
+  shape: box
+  material: green_trim
+  position:
+  - 0.0
+  - 2.407
+  - 1.24604
+  size:
+  - 0.84375
+  - 0.012
+  - 0.01
+- id: bay_01_glass
+  shape: box
+  material: glass
+  position:
+  - 0.81468
+  - 1.455
+  - 0.81468
+  size:
+  - 0.77375
+  - 1.37
+  - 0.03
+  rotation_y: 45
+- id: bay_01_middle_rail
+  shape: box
+  material: green_trim
+  position:
+  - 0.81468
+  - 1.42
+  - 0.85145
+  size:
+  - 0.82375
+  - 0.055
+  - 0.073
+  rotation_y: 45
+- id: bay_01_magazine
+  shape: box
+  material: paper
+  position:
+  - 0.74397
+  - 1.02
+  - 0.74397
+  size:
+  - 0.46
+  - 0.36
+  - 0.03
+  rotation_y: 45
+- id: bay_01_frame_left
+  shape: box
+  material: green_trim
+  position:
+  - 0.50223
+  - 1.48
+  - 1.16956
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+  rotation_y: 45
+- id: bay_01_frame_right
+  shape: box
+  material: green_trim
+  position:
+  - 1.12713
+  - 1.48
+  - 0.54466
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+  rotation_y: 45
+- id: bay_01_top_frame
+  shape: box
+  material: green_trim
+  position:
+  - 0.81468
+  - 2.18
+  - 0.85711
+  size:
+  - 0.93375
+  - 0.085
+  - 0.095
+  rotation_y: 45
+- id: bay_01_bottom_frame
+  shape: box
+  material: green_trim
+  position:
+  - 0.81468
+  - 0.785
+  - 0.85711
+  size:
+  - 0.93375
+  - 0.085
+  - 0.1
+  rotation_y: 45
+- id: bay_01_sign_base
+  shape: box
+  material: ivory_sign
+  position:
+  - 0.86199
+  - 2.408
+  - 0.86199
+  size:
+  - 0.85875
+  - 0.225
+  - 0.035
+  rotation_y: 45
+- id: bay_01_sign_edge
+  shape: box
+  material: green_trim
+  position:
+  - 0.88109
+  - 2.407
+  - 0.88109
+  size:
+  - 0.84375
+  - 0.012
+  - 0.01
+  rotation_y: 45
+- id: bay_02_glass
+  shape: box
+  material: glass
+  position:
+  - 1.15213
+  - 1.455
+  - 0.0
+  size:
+  - 0.77375
+  - 1.37
+  - 0.03
+  rotation_y: 90
+- id: bay_02_middle_rail
+  shape: box
+  material: green_trim
+  position:
+  - 1.15213
+  - 1.42
+  - 0.0
+  size:
+  - 0.82375
+  - 0.055
+  - 0.073
+  rotation_y: 90
+- id: bay_02_magazine
+  shape: box
+  material: paper_blue
+  position:
+  - 1.15213
+  - 1.02
+  - 0.0
+  size:
+  - 0.46
+  - 0.36
+  - 0.03
+  rotation_y: 90
+- id: bay_02_frame_left
+  shape: box
+  material: green_trim
+  position:
+  - 1.15213
+  - 1.48
+  - 0.44187
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+  rotation_y: 90
+- id: bay_02_frame_right
+  shape: box
+  material: green_trim
+  position:
+  - 1.15213
+  - 1.48
+  - -0.44187
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+  rotation_y: 90
+- id: bay_02_top_frame
+  shape: box
+  material: green_trim
+  position:
+  - 1.15213
+  - 2.18
+  - 0.0
+  size:
+  - 0.93375
+  - 0.085
+  - 0.095
+  rotation_y: 90
+- id: bay_02_bottom_frame
+  shape: box
+  material: green_trim
+  position:
+  - 1.15213
+  - 0.785
+  - 0.0
+  size:
+  - 0.93375
+  - 0.085
+  - 0.1
+  rotation_y: 90
+- id: bay_02_sign_base
+  shape: box
+  material: ivory_sign
+  position:
+  - 1.21904
+  - 2.408
+  - 0.0
+  size:
+  - 0.85875
+  - 0.225
+  - 0.035
+  rotation_y: 90
+- id: bay_02_sign_edge
+  shape: box
+  material: green_trim
+  position:
+  - 1.24604
+  - 2.407
+  - 0.0
+  size:
+  - 0.84375
+  - 0.012
+  - 0.01
+  rotation_y: 90
+- id: bay_03_glass
+  shape: box
+  material: glass
+  position:
+  - 0.81468
+  - 1.455
+  - -0.81468
+  size:
+  - 0.77375
+  - 1.37
+  - 0.03
+  rotation_y: 135
+- id: bay_03_middle_rail
+  shape: box
+  material: green_trim
+  position:
+  - 0.81468
+  - 1.42
+  - -0.85145
+  size:
+  - 0.82375
+  - 0.055
+  - 0.073
+  rotation_y: 135
+- id: bay_03_magazine
+  shape: box
+  material: paper
+  position:
+  - 0.88539
+  - 1.02
+  - -0.74397
+  size:
+  - 0.46
+  - 0.36
+  - 0.03
+  rotation_y: 135
+- id: bay_03_frame_left
+  shape: box
+  material: green_trim
+  position:
+  - 1.12713
+  - 1.48
+  - -0.54466
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+  rotation_y: 135
+- id: bay_03_frame_right
+  shape: box
+  material: green_trim
+  position:
+  - 0.50223
+  - 1.48
+  - -1.16956
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+  rotation_y: 135
+- id: bay_03_top_frame
+  shape: box
+  material: green_trim
+  position:
+  - 0.81468
+  - 2.18
+  - -0.85711
+  size:
+  - 0.93375
+  - 0.085
+  - 0.095
+  rotation_y: 135
+- id: bay_03_bottom_frame
+  shape: box
+  material: green_trim
+  position:
+  - 0.81468
+  - 0.785
+  - -0.85711
+  size:
+  - 0.93375
+  - 0.085
+  - 0.1
+  rotation_y: 135
+- id: bay_03_sign_base
+  shape: box
+  material: ivory_sign
+  position:
+  - 0.86199
+  - 2.408
+  - -0.86199
+  size:
+  - 0.85875
+  - 0.225
+  - 0.035
+  rotation_y: 135
+- id: bay_03_sign_edge
+  shape: box
+  material: green_trim
+  position:
+  - 0.88109
+  - 2.407
+  - -0.88109
+  size:
+  - 0.84375
+  - 0.012
+  - 0.01
+  rotation_y: 135
+- id: bay_04_glass
+  shape: box
+  material: glass
+  position:
+  - 0.0
+  - 1.455
+  - -1.15213
+  size:
+  - 0.77375
+  - 1.37
+  - 0.03
+  rotation_y: 180
+- id: bay_04_middle_rail
+  shape: box
+  material: green_trim
+  position:
+  - 0.0
+  - 1.42
+  - -1.20413
+  size:
+  - 0.82375
+  - 0.055
+  - 0.073
+  rotation_y: 180
+- id: bay_04_magazine
+  shape: box
+  material: paper_blue
+  position:
+  - 0.1
+  - 1.02
+  - -1.05213
+  size:
+  - 0.46
+  - 0.36
+  - 0.03
+  rotation_y: 180
+- id: bay_04_frame_left
+  shape: box
+  material: green_trim
+  position:
+  - 0.44187
+  - 1.48
+  - -1.21213
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+  rotation_y: 180
+- id: bay_04_frame_right
+  shape: box
+  material: green_trim
+  position:
+  - -0.44187
+  - 1.48
+  - -1.21213
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+  rotation_y: 180
+- id: bay_04_top_frame
+  shape: box
+  material: green_trim
+  position:
+  - 0.0
+  - 2.18
+  - -1.21213
+  size:
+  - 0.93375
+  - 0.085
+  - 0.095
+  rotation_y: 180
+- id: bay_04_bottom_frame
+  shape: box
+  material: green_trim
+  position:
+  - 0.0
+  - 0.785
+  - -1.21213
+  size:
+  - 0.93375
+  - 0.085
+  - 0.1
+  rotation_y: 180
+- id: bay_04_sign_base
+  shape: box
+  material: ivory_sign
+  position:
+  - 0.0
+  - 2.408
+  - -1.21904
+  size:
+  - 0.85875
+  - 0.225
+  - 0.035
+  rotation_y: 180
+- id: bay_04_sign_edge
+  shape: box
+  material: green_trim
+  position:
+  - 0.0
+  - 2.407
+  - -1.24604
+  size:
+  - 0.84375
+  - 0.012
+  - 0.01
+  rotation_y: 180
+- id: bay_05_glass
+  shape: box
+  material: glass
+  position:
+  - -0.81468
+  - 1.455
+  - -0.81468
+  size:
+  - 0.77375
+  - 1.37
+  - 0.03
+  rotation_y: 225
+- id: bay_05_middle_rail
+  shape: box
+  material: green_trim
+  position:
+  - -0.81468
+  - 1.42
+  - -0.85145
+  size:
+  - 0.82375
+  - 0.055
+  - 0.073
+  rotation_y: 225
+- id: bay_05_magazine
+  shape: box
+  material: paper
+  position:
+  - -0.74397
+  - 1.02
+  - -0.74397
+  size:
+  - 0.46
+  - 0.36
+  - 0.03
+  rotation_y: 225
+- id: bay_05_frame_left
+  shape: box
+  material: green_trim
+  position:
+  - -0.50223
+  - 1.48
+  - -1.16956
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+  rotation_y: 225
+- id: bay_05_frame_right
+  shape: box
+  material: green_trim
+  position:
+  - -1.12713
+  - 1.48
+  - -0.54466
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+  rotation_y: 225
+- id: bay_05_top_frame
+  shape: box
+  material: green_trim
+  position:
+  - -0.81468
+  - 2.18
+  - -0.85711
+  size:
+  - 0.93375
+  - 0.085
+  - 0.095
+  rotation_y: 225
+- id: bay_05_bottom_frame
+  shape: box
+  material: green_trim
+  position:
+  - -0.81468
+  - 0.785
+  - -0.85711
+  size:
+  - 0.93375
+  - 0.085
+  - 0.1
+  rotation_y: 225
+- id: bay_05_sign_base
+  shape: box
+  material: ivory_sign
+  position:
+  - -0.86199
+  - 2.408
+  - -0.86199
+  size:
+  - 0.85875
+  - 0.225
+  - 0.035
+  rotation_y: 225
+- id: bay_05_sign_edge
+  shape: box
+  material: green_trim
+  position:
+  - -0.88109
+  - 2.407
+  - -0.88109
+  size:
+  - 0.84375
+  - 0.012
+  - 0.01
+  rotation_y: 225
+- id: bay_06_glass
+  shape: box
+  material: glass
+  position:
+  - -1.15213
+  - 1.455
+  - -0.0
+  size:
+  - 0.77375
+  - 1.37
+  - 0.03
+  rotation_y: 270
+- id: bay_06_middle_rail
+  shape: box
+  material: green_trim
+  position:
+  - -1.15213
+  - 1.42
+  - -0.0
+  size:
+  - 0.82375
+  - 0.055
+  - 0.073
+  rotation_y: 270
+- id: bay_06_magazine
+  shape: box
+  material: paper_blue
+  position:
+  - -1.15213
+  - 1.02
+  - -0.0
+  size:
+  - 0.46
+  - 0.36
+  - 0.03
+  rotation_y: 270
+- id: bay_06_frame_left
+  shape: box
+  material: green_trim
+  position:
+  - -1.15213
+  - 1.48
+  - -0.44187
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+  rotation_y: 270
+- id: bay_06_frame_right
+  shape: box
+  material: green_trim
+  position:
+  - -1.15213
+  - 1.48
+  - 0.44187
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+  rotation_y: 270
+- id: bay_06_top_frame
+  shape: box
+  material: green_trim
+  position:
+  - -1.15213
+  - 2.18
+  - -0.0
+  size:
+  - 0.93375
+  - 0.085
+  - 0.095
+  rotation_y: 270
+- id: bay_06_bottom_frame
+  shape: box
+  material: green_trim
+  position:
+  - -1.15213
+  - 0.785
+  - -0.0
+  size:
+  - 0.93375
+  - 0.085
+  - 0.1
+  rotation_y: 270
+- id: bay_06_sign_base
+  shape: box
+  material: ivory_sign
+  position:
+  - -1.21904
+  - 2.408
+  - -0.0
+  size:
+  - 0.85875
+  - 0.225
+  - 0.035
+  rotation_y: 270
+- id: bay_06_sign_edge
+  shape: box
+  material: green_trim
+  position:
+  - -1.24604
+  - 2.407
+  - -0.0
+  size:
+  - 0.84375
+  - 0.012
+  - 0.01
+  rotation_y: 270
+- id: bay_07_glass
+  shape: box
+  material: glass
+  position:
+  - -0.81468
+  - 1.455
+  - 0.81468
+  size:
+  - 0.77375
+  - 1.37
+  - 0.03
+  rotation_y: 315
+- id: bay_07_middle_rail
+  shape: box
+  material: green_trim
+  position:
+  - -0.81468
+  - 1.42
+  - 0.85145
+  size:
+  - 0.82375
+  - 0.055
+  - 0.073
+  rotation_y: 315
+- id: bay_07_magazine
+  shape: box
+  material: paper
+  position:
+  - -0.88539
+  - 1.02
+  - 0.74397
+  size:
+  - 0.46
+  - 0.36
+  - 0.03
+  rotation_y: 315
+- id: bay_07_frame_left
+  shape: box
+  material: green_trim
+  position:
+  - -1.12713
+  - 1.48
+  - 0.54466
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+  rotation_y: 315
+- id: bay_07_frame_right
+  shape: box
+  material: green_trim
+  position:
+  - -0.50223
+  - 1.48
+  - 1.16956
+  size:
+  - 0.08
+  - 1.5
+  - 0.1
+  rotation_y: 315
+- id: bay_07_top_frame
+  shape: box
+  material: green_trim
+  position:
+  - -0.81468
+  - 2.18
+  - 0.85711
+  size:
+  - 0.93375
+  - 0.085
+  - 0.095
+  rotation_y: 315
+- id: bay_07_bottom_frame
+  shape: box
+  material: green_trim
+  position:
+  - -0.81468
+  - 0.785
+  - 0.85711
+  size:
+  - 0.93375
+  - 0.085
+  - 0.1
+  rotation_y: 315
+- id: bay_07_sign_base
+  shape: box
+  material: ivory_sign
+  position:
+  - -0.86199
+  - 2.408
+  - 0.86199
+  size:
+  - 0.85875
+  - 0.225
+  - 0.035
+  rotation_y: 315
+- id: bay_07_sign_edge
+  shape: box
+  material: green_trim
+  position:
+  - -0.88109
+  - 2.407
+  - 0.88109
+  size:
+  - 0.84375
+  - 0.012
+  - 0.01
+  rotation_y: 315
+- id: octagon_corner_post_00
+  shape: box
+  material: green_trim
+  position:
+  - -0.46687
+  - 1.48
+  - 1.12713
+  size:
+  - 0.11
+  - 1.5
+  - 0.11
+  rotation_y: -22.5
+- id: octagon_corner_post_01
+  shape: box
+  material: green_trim
+  position:
+  - 0.46687
+  - 1.48
+  - 1.12713
+  size:
+  - 0.11
+  - 1.5
+  - 0.11
+  rotation_y: 22.5
+- id: octagon_corner_post_02
+  shape: box
+  material: green_trim
+  position:
+  - 1.12713
+  - 1.48
+  - 0.46687
+  size:
+  - 0.11
+  - 1.5
+  - 0.11
+  rotation_y: 67.5
+- id: octagon_corner_post_03
+  shape: box
+  material: green_trim
+  position:
+  - 1.12713
+  - 1.48
+  - -0.46687
+  size:
+  - 0.11
+  - 1.5
+  - 0.11
+  rotation_y: 112.5
+- id: octagon_corner_post_04
+  shape: box
+  material: green_trim
+  position:
+  - 0.46687
+  - 1.48
+  - -1.12713
+  size:
+  - 0.11
+  - 1.5
+  - 0.11
+  rotation_y: 157.5
+- id: octagon_corner_post_05
+  shape: box
+  material: green_trim
+  position:
+  - -0.46687
+  - 1.48
+  - -1.12713
+  size:
+  - 0.11
+  - 1.5
+  - 0.11
+  rotation_y: 202.5
+- id: octagon_corner_post_06
+  shape: box
+  material: green_trim
+  position:
+  - -1.12713
+  - 1.48
+  - -0.46687
+  size:
+  - 0.11
+  - 1.5
+  - 0.11
+  rotation_y: 247.5
+- id: octagon_corner_post_07
+  shape: box
+  material: green_trim
+  position:
+  - -1.12713
+  - 1.48
+  - 0.46687
+  size:
+  - 0.11
+  - 1.5
+  - 0.11
+  rotation_y: 292.5
+- id: roof_eaves_bottom
+  shape: polygon_prism
+  material: green_trim
+  position:
+  - 0.0
+  - 2.645
+  - 0.0
+  sides: 8
+  radius: 1.62
+  height: 0.14
+  rotation_y: -22.5
+- id: roof_eaves_lip
+  shape: polygon_prism
+  material: roof_seams
+  position:
+  - 0.0
+  - 2.735
+  - 0.0
+  sides: 8
+  radius: 1.69
+  height: 0.07
+  rotation_y: -22.5
+- id: real_sloping_octagonal_roof
+  shape: polygon_frustum
+  material: roof_copper
+  position:
+  - 0.0
+  - 3.082
+  - 0.0
+  sides: 8
+  bottom_radius: 1.68
+  top_radius: 0.43
+  height: 0.64
+  rotation_y: -22.5
+- id: lantern_base
+  shape: polygon_prism
+  material: green_trim
+  position:
+  - 0.0
+  - 3.406
+  - 0.0
+  sides: 8
+  radius: 0.49
+  height: 0.085
+  rotation_y: -22.5
+- id: lantern_glass
+  shape: polygon_prism
+  material: glass_warm
+  position:
+  - 0.0
+  - 3.603
+  - 0.0
+  sides: 8
+  radius: 0.39
+  height: 0.31
+  rotation_y: -22.5
+- id: lantern_corner_frame_00
+  shape: box
+  material: green_trim
+  position:
+  - -0.15307
+  - 3.603
+  - 0.36955
+  size:
+  - 0.065
+  - 0.32
+  - 0.065
+  rotation_y: -22.5
+- id: lantern_corner_frame_01
+  shape: box
+  material: green_trim
+  position:
+  - 0.15307
+  - 3.603
+  - 0.36955
+  size:
+  - 0.065
+  - 0.32
+  - 0.065
+  rotation_y: 22.5
+- id: lantern_corner_frame_02
+  shape: box
+  material: green_trim
+  position:
+  - 0.36955
+  - 3.603
+  - 0.15307
+  size:
+  - 0.065
+  - 0.32
+  - 0.065
+  rotation_y: 67.5
+- id: lantern_corner_frame_03
+  shape: box
+  material: green_trim
+  position:
+  - 0.36955
+  - 3.603
+  - -0.15307
+  size:
+  - 0.065
+  - 0.32
+  - 0.065
+  rotation_y: 112.5
+- id: lantern_corner_frame_04
+  shape: box
+  material: green_trim
+  position:
+  - 0.15307
+  - 3.603
+  - -0.36955
+  size:
+  - 0.065
+  - 0.32
+  - 0.065
+  rotation_y: 157.5
+- id: lantern_corner_frame_05
+  shape: box
+  material: green_trim
+  position:
+  - -0.15307
+  - 3.603
+  - -0.36955
+  size:
+  - 0.065
+  - 0.32
+  - 0.065
+  rotation_y: 202.5
+- id: lantern_corner_frame_06
+  shape: box
+  material: green_trim
+  position:
+  - -0.36955
+  - 3.603
+  - -0.15307
+  size:
+  - 0.065
+  - 0.32
+  - 0.065
+  rotation_y: 247.5
+- id: lantern_corner_frame_07
+  shape: box
+  material: green_trim
+  position:
+  - -0.36955
+  - 3.603
+  - 0.15307
+  size:
+  - 0.065
+  - 0.32
+  - 0.065
+  rotation_y: 292.5
+- id: lantern_roof_eaves
+  shape: polygon_prism
+  material: green_trim
+  position:
+  - 0.0
+  - 3.78
+  - 0.0
+  sides: 8
+  radius: 0.52
+  height: 0.045
+  rotation_y: -22.5
+- id: lantern_pitched_cap
+  shape: polygon_frustum
+  material: roof_copper
+  position:
+  - 0.0
+  - 3.854
+  - 0.0
+  sides: 8
+  bottom_radius: 0.51
+  top_radius: 0.08
+  height: 0.13
+  rotation_y: -22.5
+- id: roof_finial
+  shape: sphere
+  material: brass
+  position:
+  - 0.0
+  - 3.972
+  - 0.0
+  radius: 0.078
+- id: left_planter
+  shape: box
+  material: planter_wood
+  position:
+  - -1.53
+  - 0.35
+  - 1.28
+  size:
+  - 0.46
+  - 0.37
+  - 0.43
+- id: left_soil
+  shape: box
+  material: dark_wood
+  position:
+  - -1.53
+  - 0.55
+  - 1.28
+  size:
+  - 0.4
+  - 0.04
+  - 0.37
+- id: left_foliage
+  shape: box
+  material: foliage
+  position:
+  - -1.53
+  - 0.63
+  - 1.28
+  size:
+  - 0.41
+  - 0.21
+  - 0.37
+- id: left_flower_1
+  shape: sphere
+  material: flower_pink
+  position:
+  - -1.65
+  - 0.755
+  - 1.2
+  radius: 0.075
+- id: left_flower_2
+  shape: sphere
+  material: flower_cream
+  position:
+  - -1.45
+  - 0.755
+  - 1.19
+  radius: 0.075
+- id: left_flower_3
+  shape: sphere
+  material: flower_pink
+  position:
+  - -1.58
+  - 0.755
+  - 1.36
+  radius: 0.075
+- id: left_flower_4
+  shape: sphere
+  material: flower_cream
+  position:
+  - -1.4
+  - 0.755
+  - 1.36
+  radius: 0.075
+- id: right_planter
+  shape: box
+  material: planter_wood
+  position:
+  - 1.5
+  - 0.35
+  - 1.28
+  size:
+  - 0.46
+  - 0.37
+  - 0.43
+- id: right_soil
+  shape: box
+  material: dark_wood
+  position:
+  - 1.5
+  - 0.55
+  - 1.28
+  size:
+  - 0.4
+  - 0.04
+  - 0.37
+- id: right_foliage
+  shape: box
+  material: foliage
+  position:
+  - 1.5
+  - 0.63
+  - 1.28
+  size:
+  - 0.41
+  - 0.21
+  - 0.37
+- id: right_flower_1
+  shape: sphere
+  material: flower_pink
+  position:
+  - 1.38
+  - 0.755
+  - 1.2
+  radius: 0.075
+- id: right_flower_2
+  shape: sphere
+  material: flower_cream
+  position:
+  - 1.58
+  - 0.755
+  - 1.19
+  radius: 0.075
+- id: right_flower_3
+  shape: sphere
+  material: flower_pink
+  position:
+  - 1.45
+  - 0.755
+  - 1.36
+  radius: 0.075
+- id: right_flower_4
+  shape: sphere
+  material: flower_cream
+  position:
+  - 1.63
+  - 0.755
+  - 1.36
+  radius: 0.075
+- id: chalkboard_body
+  shape: box
+  material: chalkboard
+  position:
+  - 1.47
+  - 0.69
+  - 1.72
+  size:
+  - 0.5
+  - 0.77
+  - 0.045
+  rotation_y: -18
+- id: chalkboard_header
+  shape: box
+  material: dark_wood
+  position:
+  - 1.47
+  - 1.09
+  - 1.72
+  size:
+  - 0.59
+  - 0.07
+  - 0.09
+  rotation_y: -18
+- id: chalkboard_foot
+  shape: box
+  material: dark_wood
+  position:
+  - 1.47
+  - 0.28
+  - 1.77
+  size:
+  - 0.63
+  - 0.065
+  - 0.18
+  rotation_y: -18
+- id: chalkboard_leg_left
+  shape: box
+  material: dark_wood
+  position:
+  - 1.21
+  - 0.5
+  - 1.75
+  size:
+  - 0.055
+  - 0.9
+  - 0.09
+  rotation_y: -18
+- id: chalkboard_leg_right
+  shape: box
+  material: dark_wood
+  position:
+  - 1.73
+  - 0.5
+  - 1.75
+  size:
+  - 0.055
+  - 0.9
+  - 0.09
+  rotation_y: -18
+- id: chalkboard_line_1
+  shape: box
+  material: paper
+  position:
+  - 1.47
+  - 0.92
+  - 1.78
+  size:
+  - 0.29
+  - 0.017
+  - 0.009
+  rotation_y: -18
+- id: chalkboard_line_2
+  shape: box
+  material: paper
+  position:
+  - 1.47
+  - 0.76
+  - 1.78
+  size:
+  - 0.25
+  - 0.017
+  - 0.009
+  rotation_y: -18
+- id: chalkboard_line_3
+  shape: box
+  material: paper
+  position:
+  - 1.47
+  - 0.6
+  - 1.78
+  size:
+  - 0.21
+  - 0.017
+  - 0.009
+  rotation_y: -18
+design_notes:
+  stage: 1 - coloured geometrically accurate LOD0 blockout
+  reference: Hackeburg architectural CAD sheet with front/side/top/isometric octagonal kiosk
+  roof: Exact 8-sided frustum, not a stack of square boxes. Eight inclined trapezoid planes generated in Three.js.
+  facade: Eight radial glazing bays with frames; the front bay has a double leaf glass door.
+  geometry: Glass and frames use rotation_y and a shared geometric mesh; the roof has true inclines.
+  known_limits: Signs and newspapers are currently represented with coloured geometry, not typography or textured
+    art. SVG renderer uses polygon triangulation and simplified depth sorting. No artificial building behind this
+    kiosk.
+  excluded: Litfasssaeule, bollards and broader plaza intentionally excluded.
